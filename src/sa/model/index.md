@@ -1,5 +1,5 @@
 title: 
-Software Architecture Model
+Software Architecture Model of Food Truck Tracker by Ottavio Buonomo
 ---
  
 # Getting started
@@ -45,11 +45,19 @@ Hint: to choose a meaningful project look at the rest of the modeling tasks whic
 
 }
 
-Project Name: *My Project*
+Project Name: *Food Truck Tracker*
 
-Project Type:
+Project Type: Mobile application
 
-Vision Statement:
+Vision Statement: 
+
+For students and employees who need to have a quick lunch during their midday break.
+
+The Food Truck Tracker app is a mobile application (Android) that helps to keep track of food trucks that are closest to your location. The main purpose is to have a list of fast food outlets that are around to save time during lunch.
+
+The application was developed in Java and was communicating with a MySQL database through a RESTful interface coded in PHP.
+
+Unlike Food-Truck-Finder (iOS application) found on the AppStore, our Project works in Switzerland and was partner with some restaurants having trucks.
 
 Additional Information:
 
