@@ -1,7 +1,7 @@
 title: 
 Software Architecture Model of Food Truck Tracker by Ottavio Buonomo
 ---
- 
+
 # Getting started
 
 You will use [Markdown](https://www.markdownguide.org/cheat-sheetplan) and [PlantUML](https://plantuml.com/) to describe a software architecture model about your own project.
@@ -83,6 +83,131 @@ Exceed: >2 ADR
 
 ![Architectural Decision Record Template](./examples/decision-template.madr)
 
+## ADR #1 
+
+1. What did you decide?
+
+The application will be a cross-platform app
+
+2. What was the context for your decision?
+
+What is the goal you are trying to achieve?
+
+The goal is to find the more suitable technology that helps to reach a maximum of people. As we know the smartphones around the globe are not running on the same operating system. The scope of my decision is to select the of users that will use my application.
+
+3. What is the problem you are trying to solve?
+
+How many people we want to reach with the food truck application ?
+
+4.  Which alternative options did you consider?
+
+- Android
+- iOS
+- Cross platform application
+
+5. Which one did you choose?
+
+- Cross platform application
+
+6. What is the main reason for that?
+
+As the concept of this application is based on locating places around the user there is not a specific requirement in terms of hardware that can block the development of the application on both platforms (iOS & Android). Even if the Android operating system has a big part of the market, you always have to select a specific minimum version of Android to develop on it. This will result in a loss of parts of market. iOS instead is the smallest part of the market but it represent still more thant 20% of it so it would be a waste to lose those users.
+
+On top of that it cost more to develop a native solution on both operating systems so an hybrid cross-platform solution will be the best option.
+
+List the positive consequences (pros)
+
+* One code, two operating systems
+* Reaches almost the whole market
+* Requires less time than implementing two solutions
+* Easier to maintain
+
+If any, list the negative consequences (cons)
+
+* Less flexibility on functionalities
+* May not be optimized in terms of performances
+
+## ADR #2 
+
+1. What did you decide?
+
+The more suitable cross-platform technology will be React Native
+
+2. What was the context for your decision?
+
+What is the goal you are trying to achieve?
+
+The goal is to find the best technology to build the mobile cross-platform application. There are different frameworks that offer the possibility to develop applications cross-platform, however they have not all the same performances or the same programming language.
+
+3. What is the problem you are trying to solve?
+
+What will be the best technology as developer to implement the application ?
+
+4.  Which alternative options did you consider?
+
+- Kotlin
+- React Native
+- Flutter
+
+5. Which one did you choose?
+
+- React Native
+
+6. What is the main reason for that?
+
+The main reason that I chose React Native is that I know it quite well because I developed quite a lot of apps with it, so my choice was almost straight forward. However I considered also other possibilities such as Kotlin for example but it is a very new framework and it is not a stable version so find documentation on bugs and other issues could be difficult. Flutter was also interesting but I don't have knowledge of Dart programming language so I will lose quite some time learning how everything works.
+
+List the positive consequences (pros) of your decision:
+
+* Development speed and cost
+* Code reuse and pre-developed component
+* Works everywhere
+* React Native mobile apps are visible in stores
+
+If any, list the negative consequences (cons)
+
+* Updating issues when update React Native version
+* Custom modules forced to build myself
+
+## ADR #3 
+
+1. What did you decide?
+
+The best technology for the back-end of the application would be NodeJS
+
+2. What was the context for your decision?
+
+The goal is to find the technology that can handle a significant number of connection simultaneously without blocking the server. Easy to write as a developer and quite fast.
+
+3. What is the problem you are trying to solve?
+
+You may want to articulate the problem in form of a question.
+
+4.  Which alternative options did you consider?
+
+- Java with Spring framework
+- NodeJS (Javascript) with ExpressJS
+- PHP
+
+5. Which one did you choose?
+
+- NodeJS
+
+6. What is the main reason for that?
+
+This is the strongest reason to select node as back-end server. Node is completely event driven and majority of the code runs basing on callbacks. This approach helps the application not to pause or sleep, but to become available for other requests.
+Node can handle thousands of concurrent connections with a very minimal overhead on a single process.
+
+List the positive consequences (pros) of your decision:
+
+* Uses JavaScript, which is easy to learn
+* Active community
+
+If any, list the negative consequences (cons)
+
+* NodeJS is not suited for CPU-intensive tasks
+* NodeJS is not easily scalable
+
 
 # Ex - Quality Attribute Scenario
 
@@ -154,7 +279,7 @@ Source -> [System] : "Boot"
 
 @enduml
 ```
- 
+
 
 # Ex - Quality Attribute Tradeoff
 
@@ -433,7 +558,7 @@ Exceed: 1-7 (with at least two adapters)
 * (2) Please show the details about the two interfaces which do not match (e.g., names of parameters, object structures) so that it becomes clear why an adapter is needed and what the adapter should do to bridge the mismatch
 
 * (5-6) These questions are about the implications on coupling based on the decisions you documented in the connector view.
-Whenever you have a connector you couple together the components and different connectors will have different forms of coupling
+  Whenever you have a connector you couple together the components and different connectors will have different forms of coupling
 
   For example, if you use calls everywhere, do you really need them everywhere? is there some pair of components where you could use a message queue instead?
 
