@@ -280,6 +280,195 @@ Source -> [System] : "Boot"
 @enduml
 ```
 
+## Scenario 1
+
+Quality: _Affordability_
+
+Scenario: The application has to be developed within 6 months
+
+```puml
+@startuml
+
+skinparam componentStyle rectangle
+skinparam monochrome true
+skinparam shadowing false
+
+rectangle "Development of the application" {
+
+rectangle "Client" as Source
+rectangle "max 6 months" as Measure
+
+Source -> [System] : "request"
+
+[System] -> [Measure] : "development"
+
+}
+
+@enduml
+```
+
+## Scenario 2
+
+Quality: _Design Consistency_
+
+Scenario: Design of the application should be the same on iOS and Android
+
+```puml
+@startuml
+
+skinparam componentStyle rectangle
+skinparam monochrome true
+skinparam shadowing false
+
+rectangle "Same design on different platforms" {
+
+rectangle "Device" as Source
+rectangle "design consistency metric" as Measure
+
+Source -> [System] : "running app"
+
+[System] -> [Measure] : "visualization"
+
+}
+
+@enduml
+```
+
+## Scenario 3
+
+Quality: _Privacy_
+
+Scenario: The location of the user must be encoded before sending it to the RESTful api.
+
+```puml
+@startuml
+
+skinparam componentStyle rectangle
+skinparam monochrome true
+skinparam shadowing false
+
+rectangle "User sends its location" {
+
+rectangle "User" as Source
+rectangle "encryption algorithm complexity" as Measure
+
+Source -> [System] : "user location"
+
+[System] -> [Measure] : "encrypted data"
+
+}
+
+@enduml
+```
+
+## Scenario 4
+
+Quality: _Scalability_
+
+Scenario: Food truck owner should be able to add a new food truck within 5 minutes
+
+```puml
+@startuml
+
+skinparam componentStyle rectangle
+skinparam monochrome true
+skinparam shadowing false
+
+rectangle "Add new food truck" {
+
+rectangle "Food truck owner" as Source
+rectangle "max 5 min" as Measure
+
+Source -> [System] : "add new"
+
+[System] -> [Measure] : "new truck on the app"
+
+}
+
+@enduml
+```
+
+## Scenario 5
+
+Quality: _Robustness_
+
+Scenario: The system checks if the date inserted for a new food truck is valid
+
+```puml
+@startuml
+
+skinparam componentStyle rectangle
+skinparam monochrome true
+skinparam shadowing false
+
+rectangle "Check a valid date" {
+
+rectangle "User" as Source
+rectangle "Existing date of the future" as Measure
+
+Source -> [System] : "invalid date"
+
+[System] -> [Measure] : "past date"
+
+}
+
+@enduml
+```
+
+## Scenario 6
+
+Quality: _Deployability_
+
+Scenario: The RESTful api should run in a docker container to be executable on every kind of server
+
+```puml
+@startuml
+
+skinparam componentStyle rectangle
+skinparam monochrome true
+skinparam shadowing false
+
+rectangle "API in a docker container" {
+
+rectangle "System" as Source
+rectangle "5 different systems running correctly" as Measure
+
+Source -> [System] : "run dockerfile"
+
+[System] -> [Measure] : "API online"
+
+}
+
+@enduml
+```
+
+## Scenario 7
+
+Quality: _Durability_
+
+Scenario: The user will be able to use the application even if he has not upgrade to the last version of the app
+
+```puml
+@startuml
+
+skinparam componentStyle rectangle
+skinparam monochrome true
+skinparam shadowing false
+
+rectangle "User do not update the app" {
+
+rectangle "User" as Source
+rectangle "backward compatibility up to 3 versions" as Measure
+
+Source -> [System] : "run app"
+
+[System] -> [Measure] : "old version"
+
+}
+
+@enduml
+```
+
 
 # Ex - Quality Attribute Tradeoff
 
@@ -297,9 +486,18 @@ Exceed: >2 trade-offs
 
 }
 
-## Portability vs. Performance (Example)
+## Customizability vs. Design Consistency
 
-Developing an app natively for each OS is expensive and time consuming, but it benefits from a good performance. Choosing a cross-platform environment on the other hand simplify the development process, making it faster and cheaper, but it might suffer in performance.
+The customization of the user interface of an application can be useful to match the taste of each user and will increment the user experience. However, the design follows some particulare guidelines and you need to be aware of them before making your design incosistent.
+
+## Feasibility vs. Complexity
+
+The feasability of a software is about the economic part and the time to market. More the software is complex the more will cost to produce so the affordability of the software decrease. Also, if a software is more complex to build it will take more time to develop and extend the time to market.
+
+## Complexity vs. Deployability
+
+A more complex software is composed by a big number of components and connections between them. To deploy all the different parts it can require some time and a lot of effort. A less complex software in terms of components will be easier to deploy in production.
+
 
 # Ex - Feature Modeling
 
