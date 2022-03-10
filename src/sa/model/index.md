@@ -284,6 +284,12 @@ Source -> [System] : "Boot"
 
 Quality: _Affordability_
 
+{.feedback
+
+- Sounds more like _Time to Market_
+
+}
+
 Scenario: The application has to be developed within 6 months
 
 ```puml
@@ -334,6 +340,12 @@ Source -> [System] : "running app"
 @enduml
 ```
 
+{.feedback
+
+- Is this about the User Interface Design (since you measure the visualization) or the internal software structure design?
+
+}
+
 ## Scenario 3
 
 Quality: _Privacy_
@@ -361,9 +373,21 @@ Source -> [System] : "user location"
 @enduml
 ```
 
+{.feedback
+
+- Environment = Stimulus
+
+}
+
 ## Scenario 4
 
 Quality: _Scalability_
+
+{.feedback
+
+- Configurability, Functionality
+
+}
 
 Scenario: Food truck owner should be able to add a new food truck within 5 minutes
 
@@ -415,9 +439,40 @@ Source -> [System] : "invalid date"
 @enduml
 ```
 
+{.feedback
+
+```puml
+@startuml
+
+skinparam componentStyle rectangle
+skinparam monochrome true
+skinparam shadowing false
+
+rectangle "Entering new food truck" {
+
+rectangle "User" as Source
+rectangle "Error" as Measure
+
+Source -> [System] : "invalid date"
+
+[System] -> [Measure] : "validation output"
+
+}
+
+@enduml
+```
+
+}
+
 ## Scenario 6
 
 Quality: _Deployability_
+
+{.feedback
+
++ Also _Portability_
+
+}
 
 Scenario: The RESTful api should run in a docker container to be executable on every kind of server
 
@@ -442,14 +497,46 @@ Source -> [System] : "run dockerfile"
 @enduml
 ```
 
+{.feedback
+
+```puml
+@startuml
+
+skinparam componentStyle rectangle
+skinparam monochrome true
+skinparam shadowing false
+
+rectangle "5 different systems" {
+
+rectangle "System" as Source
+rectangle "online" as Measure
+
+Source -> [System] : "run dockerfile, check API"
+
+[System] -> [Measure] : "API response"
+
+}
+
+@enduml
+```
+
+}
+
 ## Scenario 7
 
 Quality: _Durability_
 
-Scenario: The user will be able to use the application even if he has not upgrade to the last version of the app
+{.feedback
+
+- Durability could fit if the scenario involved using old data.
+- Why not call it _Backwards Compatibility_ as mentioned in the measure?
+
+}
+
+Scenario: The user will be able to use the application even if he has not upgraded to the last version of the app
 
 ```puml
-@startuml
+@startuml 
 
 skinparam componentStyle rectangle
 skinparam monochrome true
