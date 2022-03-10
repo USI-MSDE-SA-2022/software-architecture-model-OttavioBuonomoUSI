@@ -488,7 +488,7 @@ Exceed: >2 trade-offs
 
 ## Customizability vs. Design Consistency
 
-The customization of the user interface of an application can be useful to match the taste of each user and will increment the user experience. However, the design follows some particulare guidelines and you need to be aware of them before making your design incosistent.
+The customization of the user interface of an application can be useful to match the taste of each user and will increment the user experience. However, the design follows some specific guidelines and you need to be aware of them before making your design incosistent.
 
 ## Feasibility vs. Complexity
 
