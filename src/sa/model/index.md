@@ -290,6 +290,12 @@ Quality: _Time to Market_
 
 }
 
+{.feedback
+
+- Sounds more like _Time to Market_
+
+}
+
 Scenario: The application has to be developed within 6 months
 
 ```puml
@@ -382,6 +388,12 @@ Source -> [System] : "user location"
 ## Scenario 4
 
 Quality: _Functionality_
+
+{.feedback
+
+- Configurability, Functionality
+
+}
 
 {.feedback
 
