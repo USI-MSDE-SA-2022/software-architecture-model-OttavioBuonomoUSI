@@ -280,6 +280,137 @@ Our Project [summarize main advantages over status quo, unique selling point]
 <li>quality degradation</li>
 </ul>
 </p>
+<h2 id="adr-1">ADR #1</h2>
+<ol>
+<li>What did you decide?</li>
+</ol>
+<p>The application will be a cross-platform app</p>
+<ol start="2">
+<li>What was the context for your decision?</li>
+</ol>
+<p>What is the goal you are trying to achieve?</p>
+<p>The goal is to find the more suitable technology that helps to reach a maximum of people. As we know the smartphones around the globe are not running on the same operating system. The scope of my decision is to select the of users that will use my application.</p>
+<ol start="3">
+<li>What is the problem you are trying to solve?</li>
+</ol>
+<p>How many people we want to reach with the food truck application ?</p>
+<ol start="4">
+<li>Which alternative options did you consider?</li>
+</ol>
+<ul>
+<li>Android</li>
+<li>iOS</li>
+<li>Cross platform application</li>
+</ul>
+<ol start="5">
+<li>Which one did you choose?</li>
+</ol>
+<ul>
+<li>Cross platform application</li>
+</ul>
+<ol start="6">
+<li>What is the main reason for that?</li>
+</ol>
+<p>As the concept of this application is based on locating places around the user there is not a specific requirement in terms of hardware that can block the development of the application on both platforms (iOS &amp; Android). Even if the Android operating system has a big part of the market, you always have to select a specific minimum version of Android to develop on it. This will result in a loss of parts of market. iOS instead is the smallest part of the market but it represent still more thant 20% of it so it would be a waste to lose those users.</p>
+<p>On top of that it cost more to develop a native solution on both operating systems so an hybrid cross-platform solution will be the best option.</p>
+<p>List the positive consequences (pros)</p>
+<ul>
+<li>One code, two operating systems</li>
+<li>Reaches almost the whole market</li>
+<li>Requires less time than implementing two solutions</li>
+<li>Easier to maintain</li>
+</ul>
+<p>If any, list the negative consequences (cons)</p>
+<ul>
+<li>Less flexibility on functionalities</li>
+<li>May not be optimized in terms of performances</li>
+</ul>
+<h2 id="adr-2">ADR #2</h2>
+<ol>
+<li>What did you decide?</li>
+</ol>
+<p>The more suitable cross-platform technology will be React Native</p>
+<ol start="2">
+<li>What was the context for your decision?</li>
+</ol>
+<p>What is the goal you are trying to achieve?</p>
+<p>The goal is to find the best technology to build the mobile cross-platform application. There are different frameworks that offer the possibility to develop applications cross-platform, however they have not all the same performances or the same programming language.</p>
+<ol start="3">
+<li>What is the problem you are trying to solve?</li>
+</ol>
+<p>What will be the best technology as developer to implement the application ?</p>
+<ol start="4">
+<li>Which alternative options did you consider?</li>
+</ol>
+<ul>
+<li>Kotlin</li>
+<li>React Native</li>
+<li>Flutter</li>
+</ul>
+<ol start="5">
+<li>Which one did you choose?</li>
+</ol>
+<ul>
+<li>React Native</li>
+</ul>
+<ol start="6">
+<li>What is the main reason for that?</li>
+</ol>
+<p>The main reason that I chose React Native is that I know it quite well because I developed quite a lot of apps with it, so my choice was almost straight forward. However I considered also other possibilities such as Kotlin for example but it is a very new framework and it is not a stable version so find documentation on bugs and other issues could be difficult. Flutter was also interesting but I don&#39;t have knowledge of Dart programming language so I will lose quite some time learning how everything works.</p>
+<p>List the positive consequences (pros) of your decision:</p>
+<ul>
+<li>Development speed and cost</li>
+<li>Code reuse and pre-developed component</li>
+<li>Works everywhere</li>
+<li>React Native mobile apps are visible in stores</li>
+</ul>
+<p>If any, list the negative consequences (cons)</p>
+<ul>
+<li>Updating issues when update React Native version</li>
+<li>Custom modules forced to build myself</li>
+</ul>
+<h2 id="adr-3">ADR #3</h2>
+<ol>
+<li>What did you decide?</li>
+</ol>
+<p>The best technology for the back-end of the application would be NodeJS</p>
+<ol start="2">
+<li>What was the context for your decision?</li>
+</ol>
+<p>The goal is to find the technology that can handle a significant number of connection simultaneously without blocking the server. Easy to write as a developer and quite fast.</p>
+<ol start="3">
+<li>What is the problem you are trying to solve?</li>
+</ol>
+<p>You may want to articulate the problem in form of a question.</p>
+<ol start="4">
+<li>Which alternative options did you consider?</li>
+</ol>
+<ul>
+<li>Java with Spring framework</li>
+<li>NodeJS (Javascript) with ExpressJS</li>
+<li>PHP</li>
+</ul>
+<ol start="5">
+<li>Which one did you choose?</li>
+</ol>
+<ul>
+<li>NodeJS</li>
+</ul>
+<ol start="6">
+<li>What is the main reason for that?</li>
+</ol>
+<p>This is the strongest reason to select node as back-end server. Node is completely event driven and majority of the code runs basing on callbacks. This approach helps the application not to pause or sleep, but to become available for other requests.
+Node can handle thousands of concurrent connections with a very minimal overhead on a single process.</p>
+<p>List the positive consequences (pros) of your decision:</p>
+<ul>
+<li>Uses JavaScript, which is easy to learn</li>
+<li>Active community</li>
+</ul>
+<p>If any, list the negative consequences (cons)</p>
+<ul>
+<li>NodeJS is not suited for CPU-intensive tasks</li>
+<li>NodeJS is not easily scalable</li>
+</ul>
 <h1 id="ex---quality-attribute-scenario"><span class='task'>3.</span>  Quality Attribute Scenario</h1>
 <section class="instructions"><ol>
 <li><p>Pick a scenario for a specific quality attribute. Describe it with natural language.</p>
@@ -295,11 +426,55 @@ Our Project [summarize main advantages over status quo, unique selling point]
 <section class="pass"><span>&starf;&star;&star;: </span>3 scenarios</section><section class="ok"><span>&starf;&starf;&star;: </span>&gt;3 scenarios</section><section class="exceed"><span>&starf;&starf;&starf;: </span>&gt;6 scenarios using challenging qualities</section></section><h2 id="example-scenario">Example Scenario</h2>
 <p>Quality: <em>Recoverability</em></p>
 <p>Scenario: In case of power failure, rebooting the system should take up to 20 seconds.</p>
-<img src="./puml_e1.svg"><h1 id="ex---quality-attribute-tradeoff"><span class='task'>4.</span>  Quality Attribute Tradeoff</h1>
+<img src="./puml_e1.svg"><h2 id="scenario-1">Scenario 1</h2>
+<p>Quality: <em>Affordability</em></p>
+<section class="feedback"><ul>
+<li>Sounds more like <em>Time to Market</em></li>
+</ul>
+</section><p>Scenario: The application has to be developed within 6 months</p>
+<img src="./puml_e2.svg"><h2 id="scenario-2">Scenario 2</h2>
+<p>Quality: <em>Design Consistency</em></p>
+<p>Scenario: Design of the application should be the same on iOS and Android</p>
+<img src="./puml_e3.svg"><section class="feedback"><ul>
+<li>Is this about the User Interface Design (since you measure the visualization) or the internal software structure design?</li>
+</ul>
+</section><h2 id="scenario-3">Scenario 3</h2>
+<p>Quality: <em>Privacy</em></p>
+<p>Scenario: The location of the user must be encoded before sending it to the RESTful api.</p>
+<img src="./puml_e4.svg"><section class="feedback"><ul>
+<li>Environment = Stimulus</li>
+</ul>
+</section><h2 id="scenario-4">Scenario 4</h2>
+<p>Quality: <em>Scalability</em></p>
+<section class="feedback"><ul>
+<li>Configurability, Functionality</li>
+</ul>
+</section><p>Scenario: Food truck owner should be able to add a new food truck within 5 minutes</p>
+<img src="./puml_e5.svg"><h2 id="scenario-5">Scenario 5</h2>
+<p>Quality: <em>Robustness</em></p>
+<p>Scenario: The system checks if the date inserted for a new food truck is valid</p>
+<img src="./puml_e6.svg"><section class="feedback"><img src="./puml_e7.svg"></section><h2 id="scenario-6">Scenario 6</h2>
+<p>Quality: <em>Deployability</em></p>
+<section class="feedback"><ul>
+<li>Also <em>Portability</em></li>
+</ul>
+</section><p>Scenario: The RESTful api should run in a docker container to be executable on every kind of server</p>
+<img src="./puml_e8.svg"><section class="feedback"><img src="./puml_e9.svg"></section><h2 id="scenario-7">Scenario 7</h2>
+<p>Quality: <em>Durability</em></p>
+<section class="feedback"><ul>
+<li>Durability could fit if the scenario involved using old data.</li>
+<li>Why not call it <em>Backwards Compatibility</em> as mentioned in the measure?</li>
+</ul>
+</section><p>Scenario: The user will be able to use the application even if he has not upgraded to the last version of the app</p>
+<img src="./puml_e10.svg"><h1 id="ex---quality-attribute-tradeoff"><span class='task'>4.</span>  Quality Attribute Tradeoff</h1>
 <section class="instructions"><p>Pick a free combination of two qualities on the <a href="https://usi365.sharepoint.com/:x:/s/MSDE-2022-SoftwareArchitecture/ESVksoXVgMNHtKBKrIwatMYBqorOFaKjxnoqssEy0gNPCg?e=81W7SI">map</a> and write your name to claim it.</p>
 <p>Then write a short text giving an example for the tradeoff in this assignment.</p>
-<section class="pass"><span>&starf;&star;&star;: </span>1 unique trade-off</section><section class="ok"><span>&starf;&starf;&star;: </span>2 trade-offs</section><section class="exceed"><span>&starf;&starf;&starf;: </span>&gt;2 trade-offs</section></section><h2 id="portability-vs-performance-example">Portability vs. Performance (Example)</h2>
-<p>Developing an app natively for each OS is expensive and time consuming, but it benefits from a good performance. Choosing a cross-platform environment on the other hand simplify the development process, making it faster and cheaper, but it might suffer in performance.</p>
+<section class="pass"><span>&starf;&star;&star;: </span>1 unique trade-off</section><section class="ok"><span>&starf;&starf;&star;: </span>2 trade-offs</section><section class="exceed"><span>&starf;&starf;&starf;: </span>&gt;2 trade-offs</section></section><h2 id="customizability-vs-design-consistency">Customizability vs. Design Consistency</h2>
+<p>The customization of the user interface of an application can be useful to match the taste of each user and will increment the user experience. However, the design follows some specific guidelines and you need to be aware of them before making your design incosistent.</p>
+<h2 id="feasibility-vs-complexity">Feasibility vs. Complexity</h2>
+<p>The feasability of a software is about the economic part and the time to market. More the software is complex the more will cost to produce so the affordability of the software decrease. Also, if a software is more complex to build it will take more time to develop and extend the time to market.</p>
+<h2 id="complexity-vs-deployability">Complexity vs. Deployability</h2>
+<p>A more complex software is composed by a big number of components and connections between them. To deploy all the different parts it can require some time and a lot of effort. A less complex software in terms of components will be easier to deploy in production.</p>
 <h1 id="ex---feature-modeling"><span class='task'>5.</span>  Feature Modeling</h1>
 <section class="instructions"><p>In the context of your chosen project domain, describe your domain using a feature model.</p>
 <p>The feature model should be correctly visualized using the following template:</p>
@@ -323,7 +498,7 @@ Our Project [summarize main advantages over status quo, unique selling point]
 <p>You can add additional process views showing how other use cases can be satisfied by the same set of components.</p>
 <p>This assignment will focus on modularity-related decisions, we will worry about deployment and the container view later.</p>
 <p>Here is a PlantUML example logical view and process view.</p>
-<img src="./puml_e2.svg"><img src="./puml_e3.svg"><section class="hint"><span>Hint: </span>How to connect sub-components to other external components? Use this pattern.</section><img src="./puml_e4.svg"><section class="pass"><span>&starf;&star;&star;: </span>6 components (1 decomposed), 1 use case/process view</section><section class="ok"><span>&starf;&starf;&star;: </span>6 components (1 decomposed), 2 use case/process view</section><section class="exceed"><span>&starf;&starf;&starf;: </span>&gt;6 components (&gt;1 decomposed) and &gt;2 use case/process view</section></section><h2 id="logical-view">Logical View</h2>
+<img src="./puml_e11.svg"><img src="./puml_e12.svg"><section class="hint"><span>Hint: </span>How to connect sub-components to other external components? Use this pattern.</section><img src="./puml_e13.svg"><section class="pass"><span>&starf;&star;&star;: </span>6 components (1 decomposed), 1 use case/process view</section><section class="ok"><span>&starf;&starf;&star;: </span>6 components (1 decomposed), 2 use case/process view</section><section class="exceed"><span>&starf;&starf;&starf;: </span>&gt;6 components (&gt;1 decomposed) and &gt;2 use case/process view</section></section><h2 id="logical-view">Logical View</h2>
 <h2 id="process-views">Process Views</h2>
 <p>Use Case: </p>
 <h1 id="ex---component-model-bottom-up"><span class='task'>8.</span>  Component Model: Bottom-Up</h1>
