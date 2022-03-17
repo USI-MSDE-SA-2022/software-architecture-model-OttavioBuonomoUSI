@@ -1,0 +1,18 @@
+@startuml
+!include <C4/C4_Container>
+
+Person(user_s, "Students", "")
+Person(user_r, "Restaurants", "")
+
+System_Boundary(boundary, "FTT App") {
+
+}
+
+System_Ext(publibike, "Publibike")
+System_Ext(firebase, "Firebase")
+
+Rel(user_s, boundary, "Look for food trucks")
+Rel(user_r, boundary, "Upload new trucks")
+Rel(boundary, publibike, "Transport service", "Bikes near the user")
+Rel(boundary, firebase, "Authentication", "Sign Up, Sign In into the application")
+@enduml

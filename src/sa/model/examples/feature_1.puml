@@ -1,0 +1,90 @@
+
+@startuml
+
+rectangle "User role" as A
+rectangle "Notifications" as Notifications
+rectangle "List trucks" as ListTrucks
+rectangle "Authentication" as Authentication
+
+rectangle "Student space" as I
+rectangle "Restaurant space" as J
+
+A --@ I
+A --@ J
+
+rectangle "My trucks" as MyTrucks
+
+rectangle "Manage trucks" as ManageTrucks
+rectangle "Modify informations" as ModifyInformations
+rectangle "Promote truck" as Promote
+
+MyTrucks --@ ManageTrucks
+MyTrucks --@ ModifyInformations
+MyTrucks --0 Promote
+
+rectangle "Add new truck" as AddTruck
+rectangle "Remove truck" as RemoveTruck
+rectangle "Hide truck" as HideTruck
+
+ManageTrucks --@ AddTruck
+ManageTrucks --@ RemoveTruck
+ManageTrucks --0 HideTruck
+
+J *-- MyTrucks
+
+rectangle "My reviews" as Reviews
+rectangle "My favourites"  as Favourites
+
+rectangle "Rate" as Rate
+rectangle "Comment" as Comment
+
+I --@ Reviews
+I --@ Favourites
+
+Reviews *-- Rate
+Reviews *-- Comment
+
+rectangle "Push notifications" as PushNotifications
+rectangle "Newsletter" as Newsletter
+
+Notifications *-- PushNotifications
+Notifications *-- Newsletter
+
+rectangle "Proximity notification" as ProximityNotifications
+rectangle "Promotion notification" as PromotionNotifications
+
+PushNotifications *-- ProximityNotifications
+PushNotifications *-- PromotionNotifications
+
+rectangle "Filtering" as Filtering
+
+ListTrucks --@ Filtering
+
+rectangle "Proximity distance range" as ProximityDistance
+rectangle "Food type" as FoodType
+
+Filtering *-- ProximityDistance
+Filtering *-- FoodType
+
+rectangle "Firebase" as Firebase
+rectangle "Facebook" as Facebook
+rectangle "FTT account" as FTTAccount
+
+Authentication o-- Firebase
+Authentication o-- Facebook
+Authentication o-- FTTAccount
+
+Favourites -[dotted]> ListTrucks : require
+
+rectangle "Food Truck App" as R
+
+R --@ A
+R --@ Notifications
+R --@ ListTrucks
+R --@ Authentication
+
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml

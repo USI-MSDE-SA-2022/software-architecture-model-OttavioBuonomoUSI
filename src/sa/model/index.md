@@ -282,7 +282,13 @@ Source -> [System] : "Boot"
 
 ## Scenario 1
 
-Quality: _Affordability_
+Quality: _Time to Market_
+
+{.feedback
+
+- Sounds more like _Time to Market_
+
+}
 
 {.feedback
 
@@ -381,7 +387,13 @@ Source -> [System] : "user location"
 
 ## Scenario 4
 
-Quality: _Scalability_
+Quality: _Functionality_
+
+{.feedback
+
+- Configurability, Functionality
+
+}
 
 {.feedback
 
@@ -606,6 +618,10 @@ Exceed: Include more than 8 non-trivial features, indicate which are found in yo
 
 }
 
+![Example Feature Model Diagram](./examples/feature_1.puml)
+
+Our competitor have feature like putting trucks on favourite or the filtering system based on the typology of the food. However we are the only one implementing the possibility for restaurants to manage their trucks directly on the app.
+
 
 # Ex - Context Diagram
 
@@ -627,8 +643,7 @@ Exceed: >1 User and >1 Dependency, with both incoming and outgoing dependencies
 
 }
 
-
-
+![Example Context Diagram](./examples/context_1.puml)
 
 # Ex - Component Model: Top-Down
 
