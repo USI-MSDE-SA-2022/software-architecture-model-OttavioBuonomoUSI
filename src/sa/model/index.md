@@ -753,12 +753,151 @@ Exceed: >6 components (>1 decomposed) and >2 use case/process view
 
 ## Logical View
 
+```puml
+@startuml
+skinparam componentStyle rectangle
+
+!include <tupadr3/font-awesome/database>
+
+title Logical View
+interface " " as DBI
+interface " " as RAPII
+interface " " as ASI
+interface " " as MAI
+interface " " as NSI
+[Database <$database{scale=0.33}>] as DB 
+[Google Maps API] as GMA
+[User Interface] as UI
+[Authentication Service] as AS
+[Notification Service] as NS
+[REST API] as RAPI
+[Mobile Application] as MA
+
+RAPII - RAPI
+UI -( RAPII
+MA --( RAPII
+
+MAI - MA
+UI --( MAI
+GMA -( MAI
+
+DBI - DB
+AS -( DBI
+
+ASI - AS
+RAPI -( ASI
+
+NSI - NS
+UI -( NSI
+
+
+component Authentication {
+   component [Cloud Server] as CS
+   component [Auth Token Distributor] as ATD
+   CS -(0- ATD
+}
+interface I
+CS - I
+
+I )- AS
+
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml
+```
 
 
 ## Process Views
 
-Use Case: 
+Use Case 1: 
 
+```puml
+@startuml
+title Passing near a food truck position
+
+participant "User Interface" as UI
+participant "Mobile Application" as MA
+participant "REST API" as RAPI
+participant "Google Maps API" as GMA
+participant "Notification Service" as NS
+participant "Authentication Service" as AS
+participant "Database" as DB
+
+UI -> MA: Entering credentials
+MA -> RAPI: Send credential for checking
+RAPI -> AS: Compute authentication
+AS -> DB: Validate credentials
+MA -> GMA: Send user location
+GMA -> NS: Informing about proximity
+NS -> UI: Display proximity notification
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml
+```
+
+Use Case 2:
+
+```puml
+@startuml
+title Browse the list of food trucks
+
+participant "User Interface" as UI
+participant "Mobile Application" as MA
+participant "REST API" as RAPI
+participant "Google Maps API" as GMA
+participant "Notification Service" as NS
+participant "Authentication Service" as AS
+participant "Database" as DB
+
+UI -> MA: Entering credentials
+MA -> RAPI: Send credential for checking
+RAPI -> AS: Compute authentication
+AS -> DB: Validate credentials
+MA -> RAPI: Send user location
+RAPI -> AS: Verify rights
+AS -> RAPI: Validate user
+RAPI -> DB: Selecting trucks
+DB -> RAPI: Send list trucks
+RAPI -> UI: Display list trucks
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml
+```
+
+Use Case 3:
+
+```puml
+@startuml
+title Adding a new food truck to the app
+
+participant "User Interface" as UI
+participant "Mobile Application" as MA
+participant "REST API" as RAPI
+participant "Google Maps API" as GMA
+participant "Notification Service" as NS
+participant "Authentication Service" as AS
+participant "Database" as DB
+
+UI -> MA: Enter truck infos
+GMA -> MA: Retrieve lat. lon.
+MA -> RAPI: Sends new truck infos
+RAPI -> AS: Verify rights
+AS -> RAPI: Validate user
+RAPI -> DB: Insert new truck
+DB -> NS: Trigger notification
+NS -> UI: Display notification
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml
+```
 
 
 # Ex - Component Model: Bottom-Up
