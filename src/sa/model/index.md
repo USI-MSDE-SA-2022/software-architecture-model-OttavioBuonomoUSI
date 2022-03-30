@@ -829,9 +829,13 @@ UI -> MA: Entering credentials
 MA -> RAPI: Send credential for checking
 RAPI -> AS: Compute authentication
 AS -> DB: Validate credentials
-MA -> GMA: Send user location
-GMA -> NS: Informing about proximity
+MA -> RAPI: Get all trucks
+RAPI -> DB: Make request to DB for trucks
+MA -> GMA: Detect proximity
+GMA -> MA: [Callback] Nearest trucks
+MA -> NS: Informing about proximity
 NS -> UI: Display proximity notification
+MA -> GMA: Display user and trucks location
 
 skinparam monochrome true
 skinparam shadowing false
