@@ -924,6 +924,226 @@ Exceed: Redesign based on >3 reused components (1 Logical View, >1 Process View,
 
 }
 
+## Logical View
+
+Reused components: 
+ - React Native Framework : https://reactjs.org
+ - Expo CLI : https://expo.dev
+ - ExpressJS : https://expressjs.com
+ - Google authentication API : https://cloud.google.com/docs/authentication
+
+```puml
+@startuml
+skinparam componentStyle rectangle
+
+!include <tupadr3/font-awesome/database>
+
+title Logical View
+interface " " as DBI
+interface " " as RAPII
+interface " " as ASI
+interface " " as NSI
+interface " " as EXPI
+interface " " as RMAI
+[Database <$database{scale=0.33}>] as DB 
+[Google Maps API] as GMA
+[User Interface] as UI
+[Authentication Service] as AS
+[Notification Service] as NS
+[Expo CLI] as EXP
+
+RAPII - RAPI
+UI -( RAPII
+RMA --( RAPII
+
+
+UI --( RMAI
+GMA -( RMAI
+
+ASI - AS
+
+
+NSI - NS
+UI -( NSI
+
+RMAI - RMA
+
+rectangle Mobile_Application AS RMA {
+   component [React Native Framework] as RNF
+   RNF -( EXPI
+}
+
+rectangle Auth_Service AS AS {
+   component [Google Auth API] as GAS
+   AS --( DBI
+}
+RAPI --( ASI
+DBI - DB
+
+
+rectangle REST_API AS RAPI {
+   component [Node server] as NJS
+   component [Express JS] as EJS
+   interface " " as NJSI
+   NJSI - NJS
+   EJS -( NJSI
+}
+
+EXPI - EXP
+
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml
+```
+
+## Process View 1:
+
+```puml
+@startuml
+title Passing near a food truck position
+
+participant "User Interface" as UI
+participant "Mobile Application" as MA
+participant "NodeJS Server" as RAPI
+participant "Google Maps API" as GMA
+participant "Notification Service" as NS
+participant "Google Auth API" as GAA
+participant "Database" as DB
+
+UI -> MA: Entering credentials
+MA -> RAPI: Send credential for checking
+RAPI -> GAA: Calling oAuth 2.0 platform
+GAA -> DB: Validate credentials
+MA -> RAPI: Get all trucks
+RAPI -> DB: Make request to DB for trucks
+MA -> GMA: Detect proximity
+GMA -> MA: [Callback] Nearest trucks
+MA -> NS: Informing about proximity
+NS -> UI: Display proximity notification
+MA -> GMA: Display user and trucks location
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml
+```
+
+## Process View 2:
+
+```puml
+@startuml
+title Browse the list of food trucks
+
+participant "User Interface" as UI
+participant "Mobile Application" as MA
+participant "NodeJS server" as RAPI
+participant "Google Maps API" as GMA
+participant "Notification Service" as NS
+participant "Google Auth API" as GAA
+participant "Database" as DB
+
+UI -> MA: Entering credentials
+MA -> RAPI: Send credential for checking
+RAPI -> GAA: Calling oAuth 2.0 platform
+GAA -> DB: Validate credentials
+MA -> RAPI: Send user location
+RAPI -> GAA: Verify rights
+GAA -> RAPI: Calling oAuth 2.0 platform to validate user
+RAPI -> DB: Selecting trucks
+DB -> RAPI: Send list trucks
+RAPI -> UI: Display list trucks
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml
+```
+
+
+## ADR #1 
+
+1. What did you decide?
+
+The application will implement a map powered by Google
+
+2. What was the context for your decision?
+
+What is the goal you are trying to achieve?
+
+The goal is to display a map on the application with the position of the food trucks. Calculate also the distance between the user location and a selected food truck.
+
+3. What is the problem you are trying to solve?
+
+Have a map that is easy to use and does not require particular configuration on each operating system
+
+4.  Which alternative options did you consider?
+
+- Google Maps API
+- Here API
+
+5. Which one did you choose?
+
+- Google Maps API
+
+6. What is the main reason for that?
+
+As developer I am familiar with the Google Maps API because I have used it in other projects. The integration into the application is easy and does not requires special manipulations.
+
+List the positive consequences (pros)
+
+* Very good documentation
+* Large community
+* Simple integration with React Native
+
+If any, list the negative consequences (cons)
+
+* Not open source
+* Not free
+
+## ADR #2 
+
+1. What did you decide?
+
+FTT account and Google account
+
+2. What was the context for your decision?
+
+What is the goal you are trying to achieve?
+
+The goal is to authenticate the user with the most simple way that guarantee security and affects only login and registration to the application. 
+
+3. What is the problem you are trying to solve?
+
+Authenticate the user as fast as possible and keep safe the data
+
+4.  Which alternative options did you consider?
+
+- Food Truck Tracker account
+- Google account
+- Facebook account
+- Apple account
+- Combine some of the previous ones
+
+5. Which one did you choose?
+
+- Combine some of the previous ones
+
+6. What is the main reason for that?
+
+It is important to store data of the user safely on our platform so I think have an autentication system that do not implies external APIs is necessary. However, not all users will have the patience to fill the registration form and it would be simple for them to connect using an existing account from another platform. I choose Google since basicaly every Android and iOS user own one. 
+
+List the positive consequences (pros)
+
+* Make login easy using Google API
+* Keeping user data on our platform
+* Multiple login system
+
+If any, list the negative consequences (cons)
+
+* Build our authentication system could take a lot of time
+* The user data will not be stored on our platform
 
 # Ex - Interface/API Specification
 
