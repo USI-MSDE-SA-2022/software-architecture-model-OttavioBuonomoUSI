@@ -1173,6 +1173,109 @@ Exceed: Also, document the Web API using the OpenAPI language. You can use the [
 
 }
 
+```puml
+@startuml
+skinparam componentStyle rectangle
+
+!include <tupadr3/font-awesome/database>
+
+title Logical View
+interface " " as DBI
+interface " " as RAPII
+interface " " as MAI
+interface " " as NSI
+interface " " as ASCI
+[Database <$database{scale=0.33}>] as DB 
+[Google Maps API] as GMA
+[User Interface] as UI
+[Notification Service] as NS
+[REST API] as RAPI
+[Mobile Application] as MA
+
+
+note bottom of RAPII
+operations:
+..
+addNewTruck(Truck)
+getAllTrucks(UserPos)
+updateTruck(UserPos)
+getTrucksForRestaurant(Restaurant)
+deleteFoodTruck(Truck)
+assignFoodTruckToRestaurant(Truck, Restaurant)
+
+
+endnote
+RAPII - RAPI
+UI --( RAPII
+MA --( RAPII
+
+
+note bottom of MAI
+operations:
+..
+getTrucksNearUser()
+getUserPosition()
+--
+events:
+..
+closeTofoodTruck
+--
+properties:
+..
+connectedUser
+endnote
+MAI -- MA
+UI --( MAI
+GMA -( MAI
+NS --( MAI
+
+
+note bottom of DBI
+properties:
+..
+foodTrucks
+users
+openingHours
+truckProducts
+
+endnote
+DBI - DB
+ASC -( DBI
+
+note top of ASCI
+operations:
+..
+verifyUser(User)
+registerUser(User)
+endnote
+ASC - ASCI
+RAPI --( ASCI
+
+
+component Authentication as ASC {
+   component [Cloud Server] as CS
+   component [Auth Token Distributor] as ATD
+   CS -(0- ATD
+}
+
+note top of NSI
+operations:
+..
+sendNotification()
+
+endnote
+NSI - NS
+UI -( NSI
+
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml
+```
+
+![API Description](./apiTree.png)
+
 # Ex - Connector View
 
 {.instructions
