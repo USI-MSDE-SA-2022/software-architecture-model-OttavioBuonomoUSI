@@ -1295,6 +1295,43 @@ Exceed: introduce a new type of connector and update your existing process view
 
 }
 
+![API Description](./examples/connector-view_ftt.c5)
+
+## ADR #1 
+
+1. What did you decide?
+
+The application will implement shared database as connector
+
+2. What was the context for your decision?
+
+What is the goal you are trying to achieve?
+
+The goal is to have a connector between the web server, the data of the application and the authentication service.
+
+3. What is the problem you are trying to solve?
+
+Authenticate the user and retieve data from the database
+
+4.  Which alternative options did you consider?
+
+- Shared Database
+- File transfer
+
+5. Which one did you choose?
+
+- Shared Database
+
+6. What is the main reason for that?
+
+As far as I know, the database is one of the best solutions to chare data across different systems so I think
+I would be the best connector system for my project.
+
+List the positive consequences (pros)
+
+* Connects with lots of systems
+* Big storage of data
+
 # Ex - Adapters and Coupling
 
 {.instructions

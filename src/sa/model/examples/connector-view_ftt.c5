@@ -1,0 +1,11 @@
+/// The Connector View is a graph of components/connectors
+
+User Interface -call-> Notification Service
+Mobile Application -call-> Notification Service
+Mobile Application -> web Maps API -> Google Maps
+Mobile Application -> web API -> Web Server
+User Interface -call-> Mobile Application
+User Interface -call-> Web Server
+Web Server -> db DB
+Authentication <-> db DB
+Web Server -> web Auth API -> Authentication
