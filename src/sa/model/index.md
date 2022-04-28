@@ -1451,6 +1451,14 @@ For the SVG Marker adapter, there is a mismatch on format of images. The Google 
 
 ### 3.
 
+{.feedback
+
+Please rewire your wrapper.
+
+https://stackoverflow.com/c/msde-software-architecture-2022/questions/208/209#209
+
+}
+
 ```puml
 @startuml
 skinparam componentStyle rectangle
@@ -1574,8 +1582,21 @@ let JSONtoSerializable = (json) => {
   });
 };
 ```
+
+{.feedback
+
+JSON string parsing is a great example of an adapter, although it is very fine grained and it would not be often shown as part of the top-level logical view of your architecture.
+
+}
+
 ### 7.
 ![Coupling](./examples/connector-view_ftt_new.c5)
+
+{.feedback
+
+Did the connectors change as a consequence of the coupling you identified in the previous question?
+
+}
 
 # Ex - Physical and Deployment Views
 
