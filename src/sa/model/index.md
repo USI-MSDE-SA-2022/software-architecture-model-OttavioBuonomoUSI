@@ -1489,27 +1489,23 @@ UI -( RAPII
 SVGMI - SVGM
 SVGM --( RMAI
 
-
-
 UI --( SVGMI
 GMA -( RMAI
 
 ASI - AS
 
-
 NSI - NS
 UI -( NSI
-
-RMAI - RMA
 
 component Mobile_Application_Wrapper AS RMA {
    component [React Native Framework] as RNF
    component [JSON to Object] as JO #00AAFF
    interface " " as JOI
+   RMAI -- RNF
    JOI - JO
    RNF -( JOI
-   RMA -( EXPI
-   RMA --( RAPII
+   RNF --( EXPI
+   JO --( RAPII
 }
 
 rectangle Auth_Service AS AS {
