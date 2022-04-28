@@ -1369,6 +1369,214 @@ Exceed: 1-7 (with at least two adapters)
 
 }
 
+### 1.
+```puml
+@startuml
+skinparam componentStyle rectangle
+
+!include <tupadr3/font-awesome/database>
+
+title Logical View
+interface " " as DBI
+interface " " as RAPII
+interface " " as ASI
+interface " " as NSI
+interface " " as EXPI
+interface " " as RMAI
+interface " " as SVGMI
+interface " " as JOI
+[Database <$database{scale=0.33}>] as DB 
+[Google Maps API] as GMA
+[User Interface] as UI
+[Authentication Service] as AS
+[Notification Service] as NS
+[Expo CLI] as EXP
+[SVG Marker] as SVGM #00AAFF
+[JSON to Object] as JO #00AAFF
+
+RAPII - RAPI
+UI -( RAPII
+RMA -( JOI
+
+SVGMI - SVGM
+SVGM --( RMAI
+
+JOI - JO
+JO --( RAPII
+
+UI --( SVGMI
+GMA -( RMAI
+
+ASI - AS
+
+
+NSI - NS
+UI -( NSI
+
+RMAI - RMA
+
+rectangle Mobile_Application AS RMA {
+   component [React Native Framework] as RNF
+   RNF -( EXPI
+}
+
+rectangle Auth_Service AS AS {
+   component [Google Auth API] as GAS
+   AS --( DBI
+}
+RAPI --( ASI
+DBI - DB
+
+
+rectangle REST_API AS RAPI {
+   component [Node server] as NJS
+   component [Express JS] as EJS
+   interface " " as NJSI
+   NJSI - NJS
+   EJS -( NJSI
+}
+
+EXPI - EXP
+
+
+skinparam monochrome false
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml
+```
+### 2.
+For the SVG Marker adapter, there is a mismatch on format of images. The Google Maps API require an SVG image, but the mobile application provides only PNG or JPEG images. An adapter is needed to bridge the mismatch and convert the images to the SVG format such as they can be used by the Google Maps API to draw the markers of the food trucks.
+
+(Invented Adapter) For the JSON to Object adapter, there is a mismatch between the JSON provided by the REST API and the object structure of the mobile application. The adapter should convert the JSON to the object structure of the mobile application that could be used by the mobile application to display the information of the food trucks. This could be seen as a bridge between the REST API and the mobile application.
+
+### 3.
+
+```puml
+@startuml
+skinparam componentStyle rectangle
+
+!include <tupadr3/font-awesome/database>
+
+title Logical View
+interface " " as DBI
+interface " " as RAPII
+interface " " as ASI
+interface " " as NSI
+interface " " as EXPI
+interface " " as RMAI
+interface " " as SVGMI
+
+[Database <$database{scale=0.33}>] as DB 
+[Google Maps API] as GMA
+[User Interface] as UI
+[Authentication Service] as AS
+[Notification Service] as NS
+[Expo CLI] as EXP
+[SVG Marker] as SVGM #00AAFF
+
+
+RAPII - RAPI
+UI -( RAPII
+
+SVGMI - SVGM
+SVGM --( RMAI
+
+
+
+UI --( SVGMI
+GMA -( RMAI
+
+ASI - AS
+
+
+NSI - NS
+UI -( NSI
+
+RMAI - RMA
+
+component Mobile_Application_Wrapper AS RMA {
+   component [React Native Framework] as RNF
+   component [JSON to Object] as JO #00AAFF
+   interface " " as JOI
+   JOI - JO
+   RNF -( JOI
+   RMA -( EXPI
+   RMA --( RAPII
+}
+
+rectangle Auth_Service AS AS {
+   component [Google Auth API] as GAS
+   AS --( DBI
+}
+RAPI --( ASI
+DBI - DB
+
+
+rectangle REST_API AS RAPI {
+   component [Node server] as NJS
+   component [Express JS] as EJS
+   interface " " as NJSI
+   NJSI - NJS
+   EJS -( NJSI
+}
+
+EXPI - EXP
+
+
+skinparam monochrome false
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml
+```
+
+### 4.
+One of the motivation that could be the reason for introducing an adapter is to change the API or the framework providing the map service. Google Maps is not the only map service, but it is the most popular one. However it needs a payment subscription that could be expensive if there are a lot of requests on the application. A better solution could be to use a free map service like OpenStreetMap or HereMaps so an adapter to switch easily between them is needed.
+
+### 5.
+
+There is a coupling between Google Maps API and the Mobile Application components, because the Mobile application depends on the Maps API to retrieve the location of the user (geocode position). The computation of the geocode position is done by the Google Maps API has to be fast and reliable to get all the trucks around the user.
+
+### 6.
+#### SVG Marker Adapter
+```javascript
+// Pseudo code
+let convertPNGtoSVG = (png) => {
+  return new Promise((resolve, reject) => {
+    let img = new Image();
+    img.src = png;
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      let ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      let svg = canvas.toDataURL('image/svg+xml');
+      resolve(svg);
+    };
+    img.onerror = (err) => {
+      reject(err);
+    };
+  });
+};
+
+// Pseudo code
+new google.maps.Marker({
+   position: map.getCenter(),
+   icon: convertPNGtoSVG("myMarkerCustomImage.png"),
+   map: map,
+});
+```
+#### JSON to Object Adapter
+```javascript
+let JSONtoSerializable = (json) => {
+  return new Promise((resolve, reject) => {
+    let obj = JSON.parse(json);
+    resolve(obj);
+  });
+};
+```
+### 7.
+![Coupling](./examples/connector-view_ftt_new.c5)
+
 # Ex - Physical and Deployment Views
 
 {.instructions
