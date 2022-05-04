@@ -10,9 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: borales/actions-yarn@v1.22.18
-        with:
-          cmd: install
-      - uses: borales/actions-yarn@v1.22.18
-        with:
-          cmd: build
+      - name: compile documentation
+        run: |
+          yarn install
+          yarn build
