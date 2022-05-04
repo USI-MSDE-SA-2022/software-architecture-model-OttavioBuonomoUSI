@@ -1623,6 +1623,100 @@ Exceed: 1 physical view, 1 deployment view, 1 ADR (b.) + 1 demo (c.)
 
 }
 
+```puml
+@startuml
+title Physical View
+node "Mobile Phone" as MP {
+
+}
+database "Database" as DB {
+ 
+}
+node "Hosting Server" as HS {
+ 
+}
+cloud "Cloud" as CL {
+ 
+}
+DB -- CL
+MP -- HS
+MP -- CL
+HS -- CL
+HS - DB
+@enduml
+```
+
+```puml
+@startuml
+title Deployment View
+node "Mobile Phone" {
+ [User Interface] as UI
+ [React Native Application] as RN
+ [Notification Service] as NS
+}
+database "Database" {
+ [Client Database] as DB
+}
+node "Hosting Server" {
+ [REST API] as RAPI
+}
+cloud "Cloud" {
+ [Authentication Service] as AS
+ [Google Maps API] as GMA
+}
+DB -- AS: SWIFT
+UI -- RN
+UI - NS
+RN - GMA: HTTPS
+RAPI - DB: HTTP
+RAPI - AS: HTTP
+RN - RAPI: HTTPS
+@enduml
+```
+
+## ADR #1 
+
+1. What did you decide?
+
+I decided to chose an pilot and gradual phase-in deployment strategy.
+
+2. What was the context for your decision?
+
+What is the goal you are trying to achieve?
+
+The goal of each deployment of the mobile application (first daployment and further updates) is to reach all the users
+of the application but without cutting the possibility to use the application if a new version is available. 
+
+3. What is the problem you are trying to solve?
+
+How to deploy a new version of the mobile application.
+
+4.  Which alternative options did you consider?
+
+- big bang
+- blue/green
+- shadow
+- pilot
+- gradual phase-in
+- canary
+- A/B testing
+
+5. Which one did you choose?
+
+- pilot
+- gradual phase-in
+
+6. What is the main reason for that?
+
+The main reason why I choose the pilot is because I want to test the application on a limited number of users. To get feedback from users on new functionalities that could change significantly the application. However, the gradual phase-in approach is needed to get the application working on a large number of users. After the pilot, the update will be available to all users but not all of them will install it directly, so the update will gradually reach everyone.
+
+List the positive consequences (pros)
+
+* Get feedbacks on crashes and new functionalities
+* Everyone is free to update the application wheneever they want
+* Some small fixes can be deployed directly to the users without using the pilot
+
+
 # Ex - Availability and Services
 
 {.instructions 
