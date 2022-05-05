@@ -1664,13 +1664,13 @@ cloud "Cloud" {
  [Authentication Service] as AS
  [Google Maps API] as GMA
 }
-DB -- AS: SWIFT
+DB -- AS: HTTP
 UI -- RN
 UI - NS
-RN - GMA: HTTPS
+RN - GMA: HTTP
 RAPI - DB: HTTP
 RAPI - AS: HTTP
-RN - RAPI: HTTPS
+RN - RAPI: HTTP
 @enduml
 ```
 
