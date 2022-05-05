@@ -14,3 +14,8 @@ jobs:
         run: |
           yarn install
           yarn build
+      - name: deploy documentation
+        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        with:
+          branch: gh-pages
+          folder: upload/sa/model
