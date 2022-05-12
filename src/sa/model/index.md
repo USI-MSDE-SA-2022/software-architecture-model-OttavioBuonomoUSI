@@ -1740,6 +1740,142 @@ Exceed: 1, 2, 3, 4, 5, 6, 7, 8
 
 }
 
+1. Already the case for a part of the project.
+
+2. A possibility will be to use a subscription for the number of requests on the api per second. For example, if the api is called 1000 times per second, the subscription will be 1 CHF.
+
+3. My mobile application is based on food trucks, so I expect to have a high demand during the morning, the lunch time and dinner time. Therefore there should not be any planned downtime longer than a few seconds during the whole day. However the possibility to do maintenance during the night providing a message to the users is a possibility.
+
+4. 
+
+```puml
+@startuml
+title Deployment View
+node "Mobile Phone" {
+ [User Interface] as UI
+ [React Native Application] as RN
+ [Notification Service] as NS
+}
+database "Database" {
+ [Client Database] as DB
+}
+node "Hosting Server" {
+ [REST API] as RAPI
+}
+cloud "Cloud" {
+ [Authentication Service] as AS
+ [Google Maps API] as GMA
+}
+
+[Watchdog] as WD
+
+DB -- AS: HTTP
+UI -- RN
+UI - NS
+WD -- RAPI
+RN - GMA: HTTP
+RAPI - DB: HTTP
+RAPI - AS: HTTP
+RN - RAPI: HTTP
+@enduml
+```
+
+   #### ADR (Availability strategy)
+
+   1. What did you decide?
+
+   Using a watchdog on the REST API.
+
+   2. What was the context for your decision?
+
+   What is the goal you are trying to achieve?
+
+   The goal to achieve is to detect when the REST API is not available.
+
+   3. What is the problem you are trying to solve?
+
+   When the REST API is not available provide a rapid solution to reduce the impact of the application.
+
+   4.  Which alternative options did you consider?
+
+   - Watchdog
+   - Heartbeat
+
+   5. Which one did you choose?
+
+   - Watchdog
+
+   6. What is the main reason for that?
+
+   The implementation of a watchdog is a good choice because it is very simple and easy. It is also very reliable and can permit to perform actions on the hosting server such as restarting the platform if needed. The downtime will be therefore very short.
+
+
+5. 
+   ```puml
+   @startuml
+   title Passing near a food truck position
+
+   participant "User Interface" as UI
+   participant "Mobile Application" as MA
+   participant "Watchdog" as WD
+   participant "NodeJS Server" as RAPI
+   participant "Google Maps API" as GMA
+   participant "Notification Service" as NS
+   participant "Google Auth API" as GAA
+   participant "Database" as DB
+
+   WD -> RAPI : ping
+   RAPI -> WD : timeout
+   WD -> RAPI : ping
+   RAPI -> WD : timeout
+   WD -> RAPI : ping
+   RAPI -> WD : timeout
+   WD -> RAPI : reboot system
+
+   skinparam monochrome true
+   skinparam shadowing false
+   skinparam defaultFontName Courier
+   @enduml
+   ```
+
+6. 
+
+   #### ADR (Recovery strategy)
+
+   1. What did you decide?
+
+   Asynchronous replication.
+
+   2. What was the context for your decision?
+
+   What is the goal you are trying to achieve?
+
+   The goal is to recover the application as soon as possible.
+
+   3. What is the problem you are trying to solve?
+
+   Maximize availability and keep the consistency of the application.
+
+   4.  Which alternative options did you consider?
+
+   - Synchronous replication
+   - Asynchronous replication
+   - No replication
+
+   5. Which one did you choose?
+
+   - Asynchronous replication
+
+   6. What is the main reason for that?
+
+   The asynchronous replication is a good choice because it maintains both availability and consistency in most of the cases. The synchronous replication is not necessary because I do not need to wait for the application to be fully recovered.
+
+7. 
+
+   In my case, lots of compoenents are connected togther. Therefore a cascading failure will be a big problem for my system. A circuit breaker on the api will be the best solution to not propagate the failure to the other components such as the database. The circuit breaker could relie on the watchdog to detect the failure. The system should also be ready to switch on a replica of the hosting server in case of failure.
+
+8. The two external dependency I have are the auth service and the Google Maps API. If the auth service is down, the app can not authenticate users and can not perform queries that need authentication. Other queries that will do not require authentication will remain unaffected. A possible mitigation is that we can keep authenticating users that have a valid token. If the Google Maps API is down, the app can not display the map or compute the geolocation of the user. This will have a big impact on the application. A mitigation could be to be able to switch from a Maps provider to another one rapidly.
+
 # Ex - Scalability
 
 {.instructions 
