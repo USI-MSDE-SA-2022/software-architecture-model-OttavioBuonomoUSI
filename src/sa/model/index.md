@@ -1920,6 +1920,7 @@ interface " " as ASI
 interface " " as MAI
 interface " " as NSI
 interface " " as ILB
+interface " " as IDIR
 [Database <$database{scale=0.33}>] as DB 
 [Google Maps API] as GMA
 [User Interface] as UI
@@ -1928,10 +1929,13 @@ interface " " as ILB
 [REST API] as RAPI
 [Mobile Application] as MA
 [Load Balancer] as LB
+[Directory] as DIR
 
 ILB - LB
 MA --( ILB
 
+IDIR - DIR
+LB -( IDIR
 
 RAPII - RAPI
 LB --( RAPII
@@ -1974,11 +1978,14 @@ title Process View
 
 participant "Mobile Application" as MA
 participant "Load Balancer" as LB
+participant "Directory" as DIR
 participant "REST API #1" as RAPI
 participant "REST API #2" as RAPI2
 
 MA -> LB : request all trucks
 MA -> LB : request connction for user
+LB -> DIR : request available replica
+DIR -> LB : send available replica id
 LB -> RAPI2 : request all trucks to available replica
 LB -> RAPI :  request connection to available replica
 RAPI -> LB : return authentication for a user
@@ -2012,11 +2019,13 @@ cloud "Cloud" {
 }
 
 [Load Balancer] as LB
+[Directory] as DIR
 
 DB -- AS: HTTP
 UI -- RN
 UI - NS
 RN -- LB
+DIR -- LB
 LB -- RAPI
 RN - GMA: HTTP
 RAPI - DB: HTTP
@@ -2163,7 +2172,6 @@ participant "REST API" as RAPI
 participant "Query Router" as QR
 participant "Shard A" as SA
 participant "Shard B" as SB
-participant "Shared Database" as SDB
 
 RAPI -> QR : request all trucks near user
 QR -> SA : shard key
@@ -2194,7 +2202,6 @@ database "Database" {
    [Query Router] as QR
    [Shard A] as SADB
    [Shard B] as SBDB
-   [Shared Database] as SDB
 }
 node "Hosting Server" {
  [REST API] as RAPI
@@ -2208,7 +2215,6 @@ cloud "Cloud" {
 QR -- AS: HTTP
 QR -- SADB
 QR -- SBDB
-QR -- SDB
 UI -- RN
 UI - NS
 RN - GMA: HTTP
@@ -2241,3 +2247,286 @@ Good: 1, two out of 2-5.
 Exceed: 1-5.
 
 }
+
+## 1. New scenario: order online
+
+```puml
+@startuml
+skinparam componentStyle rectangle
+
+!include <tupadr3/font-awesome/database>
+
+title Logical View
+interface " " as DBI
+interface " " as RAPII
+interface " " as ASI
+interface " " as MAI
+interface " " as NSI
+interface " " as ILB
+interface " " as IPA
+[Database <$database{scale=0.33}>] as DB 
+[Google Maps API] as GMA
+[User Interface] as UI
+[Authentication Service] as AS
+[Notification Service] as NS
+[REST API] as RAPI
+[Mobile Application] as MA
+[Load Balancer] as LB
+[Payment API] as PA
+
+ILB - LB
+MA --( ILB
+
+IPA - PA
+RAPI --( IPA
+
+
+RAPII - RAPI
+LB --( RAPII
+
+MAI - MA
+UI --( MAI
+GMA -( MAI
+
+DBI - DB
+AS -( DBI
+
+ASI - AS
+RAPI -( ASI
+
+NSI - NS
+UI -( NSI
+
+
+component Authentication {
+   component [Cloud Server] as CS
+   component [Auth Token Distributor] as ATD
+   CS -(0- ATD
+}
+
+interface " " as I
+CS - I
+
+I )- AS
+
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml
+```
+
+```puml
+@startuml
+title Process View
+
+participant "User Interface" as UI
+participant "Mobile Application" as MA
+participant "REST API" as RAPI
+participant "Notification Service" as NS
+participant "Payment API" as PA
+participant "Google Auth API" as GAA
+participant "Database" as DB
+
+UI -> MA : create order
+MA -> RAPI : request order
+RAPI -> GAA : authenticate user
+RAPI -> PA : request payment
+PA -> RAPI : payment success
+RAPI -> DB : save order
+RAPI -> NS : inform payment success
+NS -> UI : send notification of payment success
+
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml
+```
+
+```puml
+@startuml
+title Deployment View
+node "Mobile Phone" {
+ [User Interface] as UI
+ [React Native Application] as RN
+ [Notification Service] as NS
+}
+database "Database" {
+   [Query Router] as QR
+   [Shard A] as SADB
+   [Shard B] as SBDB
+}
+node "Hosting Server" {
+ [REST API] as RAPI
+}
+cloud "Cloud" {
+ [Authentication Service] as AS
+ [Google Maps API] as GMA
+ [Payment API] as PA
+}
+
+
+QR -- AS: HTTP
+QR -- SADB
+QR -- SBDB
+UI -- RN
+UI - NS
+RN - GMA: HTTP
+RAPI - QR: HTTP
+RAPI - AS: HTTP
+RAPI - PA: HTTP
+RN - RAPI: HTTP
+@enduml
+```
+
+## 3. Change impact: Google Maps API
+
+One possible component that can end up breaking the application is the Google Maps API. In fact, the maps API is a dependency of the application so I consider the scenario where the maps interface changes and we cannot afford to rewrite mobile application part using it.
+
+One possible solution is to introduce an adapter between the maps API and the mobile application.
+
+```puml
+@startuml
+skinparam componentStyle rectangle
+
+!include <tupadr3/font-awesome/database>
+
+title Logical View
+interface " " as DBI
+interface " " as RAPII
+interface " " as ASI
+interface " " as MAI
+interface " " as NSI
+interface " " as ILB
+interface " " as IPA
+interface " " as IADA
+[Database <$database{scale=0.33}>] as DB 
+[Google Maps API] as GMA
+[User Interface] as UI
+[Authentication Service] as AS
+[Notification Service] as NS
+[REST API] as RAPI
+[Mobile Application] as MA
+[Load Balancer] as LB
+[Payment API] as PA
+[API Adapter] as ADA
+
+IADA - ADA
+GMA -( IADA
+
+ILB - LB
+MA --( ILB
+
+IPA - PA
+RAPI --( IPA
+
+
+RAPII - RAPI
+LB --( RAPII
+
+MAI - MA
+UI --( MAI
+ADA --( MAI
+
+DBI - DB
+AS -( DBI
+
+ASI - AS
+RAPI -( ASI
+
+NSI - NS
+UI -( NSI
+
+
+component Authentication {
+   component [Cloud Server] as CS
+   component [Auth Token Distributor] as ATD
+   CS -(0- ATD
+}
+
+interface " " as I
+CS - I
+
+I )- AS
+
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml
+```
+
+## 4. 
+
+The of plugin architecture is done in order to let the programmers to create system extention to manage the orders made on the application. This can extend the possibility to food trucks owners to have their personal system that manage orders and payments.
+The opened part of my application will be the order management system and the order request/recieve part of the application.
+
+```puml
+@startuml
+skinparam componentStyle rectangle
+
+!include <tupadr3/font-awesome/database>
+
+title Logical View
+interface " " as DBI
+interface " " as RAPII
+interface " " as ASI
+interface " " as MAI
+interface " " as NSI
+interface " " as ILB
+interface " " as IPA
+[Database <$database{scale=0.33}>] as DB 
+[Google Maps API] as GMA
+[User Interface] as UI
+[Authentication Service] as AS
+[Notification Service] as NS
+[REST API] as RAPI
+[Mobile Application] as MA
+[Load Balancer] as LB
+[Truck plugin] as TP
+[Payment API] as PA
+
+ILB - LB
+MA --( ILB
+
+IPA - PA
+RAPI --( IPA
+TP ---( IPA
+
+
+RAPII - RAPI
+LB --( RAPII
+
+MAI - MA
+UI --( MAI
+GMA -( MAI
+TP -( MAI
+
+DBI - DB
+AS -( DBI
+
+ASI - AS
+RAPI -( ASI
+
+NSI - NS
+UI -( NSI
+
+
+component Authentication {
+   component [Cloud Server] as CS
+   component [Auth Token Distributor] as ATD
+   CS -(0- ATD
+}
+
+interface " " as I
+CS - I
+
+I )- AS
+
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml
+```
